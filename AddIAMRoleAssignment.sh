@@ -12,12 +12,14 @@ echo ${RESOURCENAMES[*]}
 echo ${ROLES[*]}
 #assignees ex: ('user@company.com')
 echo ${ASSIGNEES[*]}
-for i in {0..14}
+len=${#RESOURCENAMES[@]}
+for (( i=0; i<$len; i++ ))
 do
-	scope="/subscriptions/$SUBSCRIPTIONID/resourceGroups/${RESOURCEGROUPS[$i]}/providers/${RESOURCETYPES[$i]}/${RESOURCENAMES[$i]}"
-    az role assignment create --role ${ROLES[$i]} --scope $scope --assignee ${ASSIGNEES[$i]}
+    resourcegroup=${RESOURCEGROUPS[$i]}
+    type=${RESOURCETYPES[$i]}
+    name=${RESOURCENAMES[$i]}
+    role=${ROLES[$i]}
+    assignee=${ASSIGNEES[$i]}
+	scope="/subscriptions/$SUBSCRIPTIONID/resourceGroups/$resourcegroup/providers/$type/$name"
+    az role assignment create --role $role --scope $scope --assignee $assignee
 done
-
-
-
-
